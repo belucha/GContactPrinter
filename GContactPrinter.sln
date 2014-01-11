@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GContactPrinter", "GContactPrinter.csproj", "{E2517717-1E75-477D-8C4C-7C91C8D9D7A3}"
 EndProject
 Global

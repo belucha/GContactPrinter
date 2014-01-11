@@ -54,15 +54,20 @@ namespace GContactPrinter
                         case ContactsRelationships.IsWork:
                             p += "(w)";
                             break;
+                        case ContactsRelationships.IsHome:
+                            p += "(p)";
+                            break;
                         case ContactsRelationships.IsFax:
+                        case ContactsRelationships.IsWorkFax:
+                        case ContactsRelationships.IsHomeFax:
                             p += "(f)";
                             break;
                     }
                     this.AddressesTable.AddAddressesTableRow(name, p, lastUpdate);
                 }
                 // address
-                foreach (PostalAddress adr in contact.PostalAddresses)
-                    this.AddressesTable.AddAddressesTableRow(name, adr.Value, lastUpdate);
+                foreach (var adr in contact.PostalAddresses)
+                    this.AddressesTable.AddAddressesTableRow(name, adr.FormattedAddress, lastUpdate);
                 // comments
                 if (!String.IsNullOrEmpty(contact.Content.Content))
                     this.AddressesTable.AddAddressesTableRow(name, contact.Content.Content, lastUpdate);
