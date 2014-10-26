@@ -1,4 +1,4 @@
-namespace GContactPrinter
+﻿namespace GContactPrinter
 {
     partial class MainForm
     {
@@ -28,67 +28,73 @@ namespace GContactPrinter
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
-            this.addressesTableBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.addressDataSet = new GContactPrinter.AddressDataSet();
-            this.addressDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
-            ((System.ComponentModel.ISupportInitialize)(this.addressesTableBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addressDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addressDataSetBindingSource)).BeginInit();
+            this.checkedListBoxInclude = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBoxExclude = new System.Windows.Forms.CheckedListBox();
+            this.listBoxContacts = new System.Windows.Forms.ListBox();
+            this.buttonReport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // addressesTableBindingSource
+            // checkedListBoxInclude
             // 
-            this.addressesTableBindingSource.DataMember = "AddressesTable";
-            this.addressesTableBindingSource.DataSource = this.addressDataSet;
-            this.addressesTableBindingSource.Sort = "Name";
+            this.checkedListBoxInclude.FormattingEnabled = true;
+            this.checkedListBoxInclude.Location = new System.Drawing.Point(12, 12);
+            this.checkedListBoxInclude.Name = "checkedListBoxInclude";
+            this.checkedListBoxInclude.Size = new System.Drawing.Size(328, 274);
+            this.checkedListBoxInclude.TabIndex = 4;
+            this.checkedListBoxInclude.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxIncludeExclude_ItemCheck);
+            this.checkedListBoxInclude.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.checkedListBox_FormatGroupEntry);
             // 
-            // addressDataSet
+            // checkedListBoxExclude
             // 
-            this.addressDataSet.DataSetName = "AddressDataSet";
-            this.addressDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.checkedListBoxExclude.FormattingEnabled = true;
+            this.checkedListBoxExclude.Location = new System.Drawing.Point(346, 12);
+            this.checkedListBoxExclude.Name = "checkedListBoxExclude";
+            this.checkedListBoxExclude.Size = new System.Drawing.Size(351, 274);
+            this.checkedListBoxExclude.TabIndex = 5;
+            this.checkedListBoxExclude.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxIncludeExclude_ItemCheck);
+            this.checkedListBoxExclude.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.checkedListBox_FormatGroupEntry);
             // 
-            // addressDataSetBindingSource
+            // listBoxContacts
             // 
-            this.addressDataSetBindingSource.DataSource = this.addressDataSet;
-            this.addressDataSetBindingSource.Position = 0;
+            this.listBoxContacts.FormattingEnabled = true;
+            this.listBoxContacts.Location = new System.Drawing.Point(12, 292);
+            this.listBoxContacts.Name = "listBoxContacts";
+            this.listBoxContacts.Size = new System.Drawing.Size(685, 225);
+            this.listBoxContacts.TabIndex = 6;
+            this.listBoxContacts.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.checkedListBoxContacts_Format);
             // 
-            // reportViewer
+            // buttonReport
             // 
-            this.reportViewer.Dock = System.Windows.Forms.DockStyle.Fill;
-            reportDataSource1.Name = "AddressDataSet_AddressesTable";
-            reportDataSource1.Value = this.addressesTableBindingSource;
-            this.reportViewer.LocalReport.DataSources.Add(reportDataSource1);
-            this.reportViewer.LocalReport.ReportEmbeddedResource = "GContactPrinter.AddressReport.rdlc";
-            this.reportViewer.Location = new System.Drawing.Point(0, 0);
-            this.reportViewer.Name = "reportViewer";
-            this.reportViewer.Size = new System.Drawing.Size(868, 746);
-            this.reportViewer.TabIndex = 3;
+            this.buttonReport.Location = new System.Drawing.Point(572, 527);
+            this.buttonReport.Name = "buttonReport";
+            this.buttonReport.Size = new System.Drawing.Size(125, 28);
+            this.buttonReport.TabIndex = 7;
+            this.buttonReport.Text = "report";
+            this.buttonReport.UseVisualStyleBackColor = true;
+            this.buttonReport.Click += new System.EventHandler(this.buttonReport_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(868, 746);
-            this.Controls.Add(this.reportViewer);
+            this.ClientSize = new System.Drawing.Size(709, 567);
+            this.Controls.Add(this.buttonReport);
+            this.Controls.Add(this.listBoxContacts);
+            this.Controls.Add(this.checkedListBoxExclude);
+            this.Controls.Add(this.checkedListBoxInclude);
             this.Name = "MainForm";
-            this.Text = "GContactPrinter";
+            this.Text = "MainForm";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.addressesTableBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addressDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addressDataSetBindingSource)).EndInit();
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.BindingSource addressesTableBindingSource;
-        private AddressDataSet addressDataSet;
-        private System.Windows.Forms.BindingSource addressDataSetBindingSource;
-        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
+        private System.Windows.Forms.CheckedListBox checkedListBoxInclude;
+        private System.Windows.Forms.CheckedListBox checkedListBoxExclude;
+        private System.Windows.Forms.ListBox listBoxContacts;
+        private System.Windows.Forms.Button buttonReport;
     }
 }
-

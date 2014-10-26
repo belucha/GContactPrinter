@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.IO;
 using System.Windows.Forms;
 using System.Text;
@@ -13,28 +14,10 @@ namespace GContactPrinter
 {
     partial class AddressDataSet
     {
-        /// <summary>
-        /// Fills the the Addressdataset with all google contacts
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        public void GoogleFill(string appName, OAuth2Parameters parameters)
+        public void AddContacts(IEnumerable<ContactEntry> contacts)
         {
-            ContactsService contactService = new ContactsService(appName);
-            contactService.RequestFactory = new GOAuth2RequestFactory("apps", appName, parameters);
-            ContactsQuery q = new ContactsQuery(ContactsQuery.CreateContactsUri("default"));
-            q.NumberToRetrieve = 500000;
-            foreach (ContactEntry contact in contactService.Query(q).Entries)
+            foreach (var contact in contacts)
             {
-                // we are not interested in contacts not having an adress 
-                // nor a phone nor any notes, because plain eMail contacts 
-                // need no printing
-                if (
-                    contact.Phonenumbers.Count == 0 &&
-                    contact.PostalAddresses.Count == 0 &&
-                    String.IsNullOrEmpty(contact.Content.Content)
-                    )
-                    continue;
                 // get name
                 string name = contact.Title.Text;
                 // format date

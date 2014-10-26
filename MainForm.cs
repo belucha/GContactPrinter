@@ -1,45 +1,21 @@
-using System;
+﻿using System;
+using System.Linq;
 using System.IO;
-using System.Net;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using Microsoft.Reporting.WinForms;
-using Google.GData;
-using Google.GData.AccessControl;
-using Google.GData.Client;
-using System.Globalization;
-using Newtonsoft.Json;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace GContactPrinter
 {
     public partial class MainForm : Form
     {
+        ContactGetterDialog contacts;
+
         public MainForm()
         {
             InitializeComponent();
-        }
-
-        public static Dictionary<string, string> QueryJson(string url, OAuth2Parameters parameters)
-        {
-            Uri requestUri = new Uri(String.Format("{0}?access_token={1}", url, parameters.AccessToken));
-            WebRequest request = WebRequest.Create(requestUri);
-            request.Method = "GET";
-            request.ContentLength = 0;
-            request.ContentType = "application/x-www-form-urlencoded";
-            WebResponse response = request.GetResponse();
-            string result = "";
-            if (response != null)
-            {
-                Stream responseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(responseStream);
-                result = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
-            }
-            return new Dictionary<string, string>();
+            this.contacts = new ContactGetterDialog();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -48,67 +24,50 @@ namespace GContactPrinter
                 Application.ProductName,
                 Application.ProductVersion
             );
-            // see: https://developers.google.com/accounts/docs/OAuth2InstalledApp
-            OAuth2Parameters parameters = new OAuth2Parameters()
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            if (contacts.ShowDialog() == System.Windows.Forms.DialogResult.OK && contacts.Groups != null && contacts.Contacts != null)
             {
-                ClientId = @"901417380953-9mav3rrc3c8tdf4hrnnpvdqf5bmmi14c.apps.googleusercontent.com",
-                ClientSecret = @"aIKReROooiOD-ZpgQAoFf8aa",
-                RedirectUri = "urn:ietf:wg:oauth:2.0:oob:auto",
-                Scope = "https://www.googleapis.com/auth/contacts.readonly https://www.googleapis.com/auth/userinfo.email",
-            };
-            // run the OAuth process in webBrowser
-            parameters.AccessCode = LoginForm.Execute(OAuthUtil.CreateOAuth2AuthorizationUrl(parameters));
-            // close app in case of failure
-            if (String.IsNullOrEmpty(parameters.AccessCode))
-            {
-                Close();
-                return;
+                this.checkedListBoxInclude.Items.AddRange(contacts.Groups.ToArray());
+                this.checkedListBoxExclude.Items.AddRange(contacts.Groups.ToArray());
+                this.checkedListBoxIncludeExclude_ItemCheck(null, null);
             }
-            // create temp form showing loading progress
-            Form f = new Form();
-            try
-            {
-                f.Text = "Authenticating...";
-                f.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-                f.TopMost = true;
-                f.ClientSize = new Size(500, 0);
-                f.StartPosition = FormStartPosition.CenterScreen;
-                /* google code */
-                DateTime printDate = DateTime.Now;
-                f.Show();
-                // convert access 
-                OAuthUtil.GetAccessToken(parameters);
-                // get user infos
-                var userInfo = QueryJson("https://www.googleapis.com/oauth2/v1/userinfo", parameters);
-                f.Text = String.Format("Loading contact data for {0}. Please wait ... ", userInfo["email"]);
-                try
-                {
-                    // fill the data source
-                    this.addressDataSet.GoogleFill("GContactPrinter", parameters);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, ex.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    Close();
-                    return;
-                }
-                // pass parameters to the report
-                this.reportViewer.LocalReport.SetParameters(new ReportParameter[] {
-                        new ReportParameter("SourceFile", userInfo["email"]),
-                        new ReportParameter("FileDateString", String.Format("{0} {1}", 
-                            printDate.ToShortDateString(), 
-                            printDate.ToShortTimeString())
-                        ),
-                    });
-                this.reportViewer.SetDisplayMode(DisplayMode.PrintLayout);
-                if (f.Visible)
-                    f.Close();
-            }
-            finally
-            {
-                if (f.Visible)
-                    f.Close();
-            }
+            else
+                this.Close();
+        }
+
+        private void checkedListBox_FormatGroupEntry(object sender, ListControlConvertEventArgs e)
+        {
+            var group = e.ListItem as Google.GData.Contacts.GroupEntry;
+            e.Value = group.Title.Text;
+        }
+
+        private void checkedListBoxContacts_Format(object sender, ListControlConvertEventArgs e)
+        {
+            var contact = e.ListItem as Google.GData.Contacts.ContactEntry;
+            e.Value = contact.Title.Text;
+        }
+
+        private void checkedListBoxIncludeExclude_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            this.listBoxContacts.BeginUpdate();
+            this.listBoxContacts.Items.Clear();
+            this.listBoxContacts.Items.AddRange(
+                this.contacts.GetFilteredContacts(
+                    this.checkedListBoxInclude.CheckedItems.OfType<Google.GData.Contacts.GroupEntry>(),
+                    this.checkedListBoxExclude.CheckedItems.OfType<Google.GData.Contacts.GroupEntry>()
+                ).ToArray()
+            );
+            this.listBoxContacts.EndUpdate();
+            this.Text = String.Format("{0} of {1} selected for printing...", this.listBoxContacts.Items.Count, this.contacts.Contacts.Length);
+        }
+
+        private void buttonReport_Click(object sender, EventArgs e)
+        {
+            using (var dlg = new ReportForm(this.listBoxContacts.Items.OfType<Google.GData.Contacts.ContactEntry>(), this.contacts.Email))
+                dlg.ShowDialog();
         }
     }
 }
