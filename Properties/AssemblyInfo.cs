@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Google Contact Report")]
+[assembly: AssemblyTitle("GContactPrinter")]
 [assembly: AssemblyDescription("Creates an outlook like report of all google contacts. Usage enter google login and password!")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("S21")]
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.6.0.0")]
-[assembly: AssemblyFileVersion("1.6.0.0")]
+[assembly: AssemblyVersion("1.7.0.0")]
+[assembly: AssemblyFileVersion("1.7.0.0")]
