@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Google Contact Report")]
 [assembly: AssemblyDescription("Creates an outlook like report of all google contacts. Usage enter google login and password!")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("B9")]
+[assembly: AssemblyCompany("S21")]
 [assembly: AssemblyProduct("GContactPrinter")]
-[assembly: AssemblyCopyright("Copyright © B9 2008")]
+[assembly: AssemblyCopyright("Copyright © S21 2008,2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.5.0.0")]
-[assembly: AssemblyFileVersion("1.5.0.0")]
+[assembly: AssemblyVersion("1.6.0.0")]
+[assembly: AssemblyFileVersion("1.6.0.0")]

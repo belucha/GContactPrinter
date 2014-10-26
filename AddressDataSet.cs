@@ -18,10 +18,10 @@ namespace GContactPrinter
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public void GoogleFill(string username, string password)
+        public void GoogleFill(string appName, OAuth2Parameters parameters)
         {
-            ContactsService contactService = new ContactsService("GContactPrinter");
-            contactService.setUserCredentials(username, password);
+            ContactsService contactService = new ContactsService(appName);
+            contactService.RequestFactory = new GOAuth2RequestFactory("apps", appName, parameters);
             ContactsQuery q = new ContactsQuery(ContactsQuery.CreateContactsUri("default"));
             q.NumberToRetrieve = 500000;
             foreach (ContactEntry contact in contactService.Query(q).Entries)

@@ -14,10 +14,7 @@ namespace GContactPrinter
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (args.Length == 0)
-                Application.Run(new MainForm());
-            else
-                Application.Run(new MainForm(args[0]));
+            Application.Run(new MainForm());
         }
     }
 }
