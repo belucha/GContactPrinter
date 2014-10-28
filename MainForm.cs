@@ -30,9 +30,8 @@ namespace GContactPrinter
         {
             if (contacts.ShowDialog() == System.Windows.Forms.DialogResult.OK && contacts.Groups != null && contacts.Contacts != null)
             {
-                this.checkedListBoxInclude.Items.AddRange(contacts.Groups.ToArray());
-                this.checkedListBoxExclude.Items.AddRange(contacts.Groups.ToArray());
-                this.checkedListBoxIncludeExclude_ItemCheck(null, null);
+                this.groupEntryBindingSource.DataSource = contacts.Groups;
+                this.contactEntryBindingSource.DataSource = contacts.Contacts;
             }
             else
                 this.Close();
@@ -52,15 +51,6 @@ namespace GContactPrinter
 
         private void checkedListBoxIncludeExclude_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            this.listBoxContacts.BeginUpdate();
-            this.listBoxContacts.Items.Clear();
-            this.listBoxContacts.Items.AddRange(
-                this.contacts.GetFilteredContacts(
-                    this.checkedListBoxInclude.CheckedItems.OfType<Google.GData.Contacts.GroupEntry>(),
-                    this.checkedListBoxExclude.CheckedItems.OfType<Google.GData.Contacts.GroupEntry>()
-                ).ToArray()
-            );
-            this.listBoxContacts.EndUpdate();
             this.Text = String.Format("{0} of {1} selected for printing...", this.listBoxContacts.Items.Count, this.contacts.Contacts.Length);
         }
 
@@ -68,6 +58,11 @@ namespace GContactPrinter
         {
             using (var dlg = new ReportForm(this.listBoxContacts.Items.OfType<Google.GData.Contacts.ContactEntry>(), this.contacts.Email))
                 dlg.ShowDialog();
+        }
+
+        private void listBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

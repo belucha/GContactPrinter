@@ -146,6 +146,8 @@
     </None>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Google.GData.Contacts.ContactEntry.datasource" />
+    <None Include="Properties\DataSources\Google.GData.Contacts.GroupEntry.datasource" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GMail.ico" />
