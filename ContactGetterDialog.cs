@@ -24,6 +24,7 @@ namespace GContactPrinter
         static string APPNAME = "GContactPrinter";
         OAuth2Parameters parameters;
         SynchronizationContext sync;
+        Thread thread;
 
         public ContactEntry[] Contacts { get; private set; }
         public GroupEntry[] Groups { get; private set; }
@@ -33,6 +34,7 @@ namespace GContactPrinter
         public ContactGetterDialog()
         {
             InitializeComponent();
+            this.textBoxProgress.Clear();
             this.sync = SynchronizationContext.Current;
             // see: https://developers.google.com/accounts/docs/OAuth2InstalledApp
             this.parameters = new OAuth2Parameters()
@@ -42,18 +44,27 @@ namespace GContactPrinter
                 RedirectUri = "urn:ietf:wg:oauth:2.0:oob:auto",
                 Scope = "https://www.googleapis.com/auth/contacts.readonly https://www.googleapis.com/auth/userinfo.email",
             };
+            this.WriteLine("{0} started...", APPNAME);
             // start authentification process
             this.webBrowser.Url = new Uri(OAuthUtil.CreateOAuth2AuthorizationUrl(this.parameters));
         }
 
+        private void WriteLine(string format, params object[] args)
+        {
+            this.sync.Post(s =>
+                this.textBoxProgress.AppendText((args.Length > 0 ? String.Format(format, args) : format) + Environment.NewLine), null);
+        }
+
         private void webBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
+            this.WriteLine("goto: \"{0}\"", e.Url);
             const string ok = "Success code=";
             //            const string error = "Denied error=";
             var title = webBrowser.DocumentTitle;
             if (title.StartsWith(ok))
             {
                 this.parameters.AccessCode = title.Substring(ok.Length);
+                this.WriteLine("Access granted, code: \"{0}\"", this.parameters.AccessCode);
                 this.webBrowser.Visible = false;
                 ThreadPool.QueueUserWorkItem(DoWork, this.parameters);
                 this.webBrowser.Navigated -= this.webBrowser_Navigated;
@@ -63,27 +74,48 @@ namespace GContactPrinter
 
         void DoWork(object state)
         {
-            OAuthUtil.GetAccessToken(this.parameters);
-            var userInfo = GetUserInfos();
-            this.Email = userInfo["email"];
-            this.UserName = userInfo["name"];
-            var service = new ContactsService(APPNAME)
+            try
             {
-                RequestFactory = new GOAuth2RequestFactory("apps", APPNAME, this.parameters),
-            };
-            this.Groups = service.Query(new GroupsQuery(GroupsQuery.CreateGroupsUri("default"))
+                this.WriteLine("Requesting access token...");
+                OAuthUtil.GetAccessToken(this.parameters);
+                this.WriteLine("Access token: {0}", parameters.AccessToken);
+                this.WriteLine("Requesting user infos...");
+                var userInfo = GetUserInfos();
+                this.WriteLine("Email: {0}", this.Email = userInfo["email"]);
+                this.WriteLine("UserName : {0}", this.UserName = userInfo["name"]);
+                this.WriteLine("Create contact service...");
+                var service = new ContactsService(APPNAME)
+                {
+                    RequestFactory = new GOAuth2RequestFactory("apps", APPNAME, this.parameters),
+                };
+                // groups
+                this.WriteLine("Query groups...");
+                this.Groups = service.Query(new GroupsQuery(GroupsQuery.CreateGroupsUri("default"))
+                {
+                    NumberToRetrieve = 500,
+                }).Entries.OfType<Google.GData.Contacts.GroupEntry>().ToArray();
+                this.WriteLine("Received {0} contact groups.", this.Groups.Length);
+                // contacts
+                this.WriteLine("Query contacts...");
+                this.Contacts = service.Query(new ContactsQuery(ContactsQuery.CreateContactsUri("default"))
+                {
+                    NumberToRetrieve = 50000,
+                }).Entries.OfType<ContactEntry>().ToArray();
+                this.WriteLine("Received {0} contacts.", this.Contacts.Length);
+                // close dialog
+                this.WriteLine("Done.");
+                this.WriteLine("Application starting....in 3 seconds");
+                Thread.Sleep(3000);
+                this.sync.Post(s => this.DialogResult = System.Windows.Forms.DialogResult.OK, null);
+            }
+            catch (Exception error)
             {
-                NumberToRetrieve = 500,
-            }).Entries.OfType<Google.GData.Contacts.GroupEntry>().ToArray();
-
-            this.Contacts = service.Query(new ContactsQuery(ContactsQuery.CreateContactsUri("default"))
-            {
-                NumberToRetrieve = 50000,
-            }).Entries.OfType<ContactEntry>().ToArray();
-            // close dialog
-            this.sync.Post(s => this.DialogResult = System.Windows.Forms.DialogResult.OK, null);
+                this.WriteLine("");
+                this.WriteLine("{0}: {1}", error.GetType().Name, error.Message);
+                this.WriteLine("");
+                this.WriteLine("Failure. Close dialog!");
+            }
         }
-
 
         /// <summary>
         /// Checks wether a contact is a member of any given group
@@ -125,16 +157,16 @@ namespace GContactPrinter
                 .Where(contact => includeAll || contact.GroupMembership.Count == 0 || IsMemberOf(contact, includeGroups))
                 //  2) that are in the exclude list
                 .Where(contact => !IsMemberOf(contact, excludeGroups))
-/*
-                // we are not interested in contacts not having an adress 
-                // nor a phone nor any notes, because plain eMail contacts 
-                // need no printing
-                .Where(contact =>
-                    contact.Phonenumbers.Count > 0 ||
-                    contact.PostalAddresses.Count > 0 ||
-                    !String.IsNullOrEmpty(contact.Content.Content)
-                )                
- */ 
+                /*
+                                // we are not interested in contacts not having an adress 
+                                // nor a phone nor any notes, because plain eMail contacts 
+                                // need no printing
+                                .Where(contact =>
+                                    contact.Phonenumbers.Count > 0 ||
+                                    contact.PostalAddresses.Count > 0 ||
+                                    !String.IsNullOrEmpty(contact.Content.Content)
+                                )                
+                 */
                  ;
         }
     }
