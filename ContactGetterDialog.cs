@@ -24,7 +24,6 @@ namespace GContactPrinter
         static string APPNAME = "GContactPrinter";
         OAuth2Parameters parameters;
         SynchronizationContext sync;
-        Thread thread;
 
         public ContactEntry[] Contacts { get; private set; }
         public GroupEntry[] Groups { get; private set; }
@@ -117,21 +116,6 @@ namespace GContactPrinter
             }
         }
 
-        /// <summary>
-        /// Checks wether a contact is a member of any given group
-        /// </summary>
-        /// <param name="contact"></param>
-        /// <param name="groups"></param>
-        /// <returns></returns>
-        static bool IsMemberOf(ContactEntry contact, IEnumerable<GroupEntry> groups)
-        {
-            foreach (var groupMemberShip in contact.GroupMembership)
-                foreach (var group in groups)
-                    if (String.Compare(groupMemberShip.HRef, group.Id.AbsoluteUri, true) == 0)
-                        return true;
-            return false;
-        }
-
         Dictionary<string, string> GetUserInfos()
         {
             Uri requestUri = new Uri(String.Format("https://www.googleapis.com/oauth2/v1/userinfo?access_token={0}", this.parameters.AccessToken));
@@ -147,27 +131,6 @@ namespace GContactPrinter
                     return JsonConvert.DeserializeObject<Dictionary<string, string>>(reader.ReadToEnd());
                 }
             return new Dictionary<string, string>();
-        }
-
-        public IEnumerable<ContactEntry> GetFilteredContacts(IEnumerable<GroupEntry> includeGroups, IEnumerable<GroupEntry> excludeGroups)
-        {
-            var includeAll = includeGroups.Count() == 0;
-            return this.Contacts
-                //  1) that are not in the included list of groups, except if that list is empty
-                .Where(contact => includeAll || contact.GroupMembership.Count == 0 || IsMemberOf(contact, includeGroups))
-                //  2) that are in the exclude list
-                .Where(contact => !IsMemberOf(contact, excludeGroups))
-                /*
-                                // we are not interested in contacts not having an adress 
-                                // nor a phone nor any notes, because plain eMail contacts 
-                                // need no printing
-                                .Where(contact =>
-                                    contact.Phonenumbers.Count > 0 ||
-                                    contact.PostalAddresses.Count > 0 ||
-                                    !String.IsNullOrEmpty(contact.Content.Content)
-                                )                
-                 */
-                 ;
         }
     }
 }

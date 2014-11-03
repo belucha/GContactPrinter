@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -30,8 +30,8 @@ namespace GContactPrinter
         {
             if (contacts.ShowDialog() == System.Windows.Forms.DialogResult.OK && contacts.Groups != null && contacts.Contacts != null)
             {
-                this.groupEntryBindingSource.DataSource = contacts.Groups;
-                this.contactEntryBindingSource.DataSource = contacts.Contacts;
+                this.listBoxGroups.Items.AddRange(contacts.Groups);
+                this.updateFilter(null, null);
             }
             else
                 this.Close();
@@ -60,9 +60,37 @@ namespace GContactPrinter
                 dlg.ShowDialog();
         }
 
-        private void listBoxGroups_SelectedIndexChanged(object sender, EventArgs e)
+        private void buttonSaveToXml_Click(object sender, EventArgs e)
         {
+            if (this.saveFileDialogXml.ShowDialog() == DialogResult.OK)
+            {
+            }
+        }
 
+        private void updateFilter(object sender, EventArgs e)
+        {
+            this.listBoxGroups.Enabled = !this.radioButtonAll.Checked;
+            this.listBoxContacts.BeginUpdate();
+            this.listBoxContacts.Items.Clear();
+            var selected = this.listBoxGroups.SelectedItems.Cast<Google.GData.Contacts.GroupEntry>().ToArray();
+            IEnumerable<Google.GData.Contacts.ContactEntry> c;
+            if (this.radioButtonOnlySelected.Checked)
+                c = this.contacts.Contacts.Where(contact => contact.IsMemberOf(selected));
+            else if (this.radioButtonButSelected.Checked)
+                c = this.contacts.Contacts.Where(contact => !contact.IsMemberOf(selected));
+            else
+                c = this.contacts.Contacts;
+
+            if (this.radioButtonExcludeWithoutAddress.Checked)
+                c = c.Where(contact => contact.PostalAddresses.Count > 0);
+            else if (this.radioButtonExcludeWithoutPhone.Checked)
+                c = c.Where(contact => contact.Phonenumbers.Count > 0);
+            else if (this.radioButtonExcludeWithoutAddressNorPhone.Checked)
+                c = c.Where(contact => contact.Phonenumbers.Count > 0 || contact.PostalAddresses.Count > 0);
+
+            this.listBoxContacts.Items.AddRange(c.ToArray());
+            this.groupBoxContacts.Text = String.Format("{0}/{1} contacts selected for report...", this.listBoxContacts.Items.Count, this.contacts.Contacts.Length);
+            this.listBoxContacts.EndUpdate();
         }
     }
 }

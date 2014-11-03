@@ -28,86 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.SplitContainer splitContainer;
             System.Windows.Forms.GroupBox groupBoxGroupMode;
+            this.groupBoxContactFilter = new System.Windows.Forms.GroupBox();
+            this.radioButtonAll = new System.Windows.Forms.RadioButton();
+            this.radioButtonOnlySelected = new System.Windows.Forms.RadioButton();
+            this.listBoxGroups = new System.Windows.Forms.ListBox();
+            this.radioButtonButSelected = new System.Windows.Forms.RadioButton();
+            this.groupBoxExclude = new System.Windows.Forms.GroupBox();
+            this.radioButtonExcludeWithoutPhone = new System.Windows.Forms.RadioButton();
+            this.radioButtonExcludeWithoutAddress = new System.Windows.Forms.RadioButton();
+            this.radioButtonExcludeWithoutAddressNorPhone = new System.Windows.Forms.RadioButton();
+            this.radioButtonExcludeNone = new System.Windows.Forms.RadioButton();
+            this.groupBoxContacts = new System.Windows.Forms.GroupBox();
             this.listBoxContacts = new System.Windows.Forms.ListBox();
             this.buttonReport = new System.Windows.Forms.Button();
-            this.listBoxGroups = new System.Windows.Forms.ListBox();
-            this.groupBoxContactFilter = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBoxContacts = new System.Windows.Forms.GroupBox();
-            this.radioButtonOnlySelected = new System.Windows.Forms.RadioButton();
-            this.radioButtonButSelected = new System.Windows.Forms.RadioButton();
-            this.radioButtonAll = new System.Windows.Forms.RadioButton();
-            this.checkBoxMustHaveAddress = new System.Windows.Forms.CheckBox();
-            this.groupEntryBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.contactEntryBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.buttonSaveToXml = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.saveFileDialogXml = new System.Windows.Forms.SaveFileDialog();
             splitContainer = new System.Windows.Forms.SplitContainer();
             groupBoxGroupMode = new System.Windows.Forms.GroupBox();
-            this.groupBoxContactFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(splitContainer)).BeginInit();
             splitContainer.Panel1.SuspendLayout();
             splitContainer.Panel2.SuspendLayout();
             splitContainer.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.groupBoxContacts.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.groupEntryBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.contactEntryBindingSource)).BeginInit();
+            this.groupBoxContactFilter.SuspendLayout();
             groupBoxGroupMode.SuspendLayout();
+            this.groupBoxExclude.SuspendLayout();
+            this.groupBoxContacts.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // listBoxContacts
-            // 
-            this.listBoxContacts.DataSource = this.contactEntryBindingSource;
-            this.listBoxContacts.DisplayMember = "Title";
-            this.listBoxContacts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBoxContacts.FormattingEnabled = true;
-            this.listBoxContacts.Location = new System.Drawing.Point(3, 16);
-            this.listBoxContacts.Name = "listBoxContacts";
-            this.listBoxContacts.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBoxContacts.Size = new System.Drawing.Size(703, 324);
-            this.listBoxContacts.TabIndex = 6;
-            this.listBoxContacts.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.checkedListBoxContacts_Format);
-            // 
-            // buttonReport
-            // 
-            this.buttonReport.Location = new System.Drawing.Point(12, 7);
-            this.buttonReport.Name = "buttonReport";
-            this.buttonReport.Size = new System.Drawing.Size(125, 28);
-            this.buttonReport.TabIndex = 7;
-            this.buttonReport.Text = "report";
-            this.buttonReport.UseVisualStyleBackColor = true;
-            this.buttonReport.Click += new System.EventHandler(this.buttonReport_Click);
-            // 
-            // listBoxGroups
-            // 
-            this.listBoxGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBoxGroups.DataSource = this.groupEntryBindingSource;
-            this.listBoxGroups.DisplayMember = "Title";
-            this.listBoxGroups.FormattingEnabled = true;
-            this.listBoxGroups.Location = new System.Drawing.Point(165, 19);
-            this.listBoxGroups.MultiColumn = true;
-            this.listBoxGroups.Name = "listBoxGroups";
-            this.listBoxGroups.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBoxGroups.Size = new System.Drawing.Size(532, 134);
-            this.listBoxGroups.TabIndex = 8;
-            this.listBoxGroups.SelectedIndexChanged += new System.EventHandler(this.listBoxGroups_SelectedIndexChanged);
-            // 
-            // groupBoxContactFilter
-            // 
-            this.groupBoxContactFilter.Controls.Add(groupBoxGroupMode);
-            this.groupBoxContactFilter.Controls.Add(this.checkBoxMustHaveAddress);
-            this.groupBoxContactFilter.Controls.Add(this.listBoxGroups);
-            this.groupBoxContactFilter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxContactFilter.Location = new System.Drawing.Point(0, 0);
-            this.groupBoxContactFilter.Name = "groupBoxContactFilter";
-            this.groupBoxContactFilter.Size = new System.Drawing.Size(709, 169);
-            this.groupBoxContactFilter.TabIndex = 9;
-            this.groupBoxContactFilter.TabStop = false;
-            this.groupBoxContactFilter.Text = "Filter...";
             // 
             // splitContainer
             // 
@@ -131,47 +82,31 @@
             splitContainer.SplitterWidth = 8;
             splitContainer.TabIndex = 10;
             // 
-            // panel1
+            // groupBoxContactFilter
             // 
-            this.panel1.Controls.Add(this.buttonReport);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 520);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(709, 47);
-            this.panel1.TabIndex = 11;
+            this.groupBoxContactFilter.Controls.Add(groupBoxGroupMode);
+            this.groupBoxContactFilter.Controls.Add(this.groupBoxExclude);
+            this.groupBoxContactFilter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxContactFilter.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxContactFilter.Name = "groupBoxContactFilter";
+            this.groupBoxContactFilter.Size = new System.Drawing.Size(709, 169);
+            this.groupBoxContactFilter.TabIndex = 9;
+            this.groupBoxContactFilter.TabStop = false;
+            this.groupBoxContactFilter.Text = "Filter...";
             // 
-            // groupBoxContacts
+            // groupBoxGroupMode
             // 
-            this.groupBoxContacts.Controls.Add(this.listBoxContacts);
-            this.groupBoxContacts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBoxContacts.Location = new System.Drawing.Point(0, 0);
-            this.groupBoxContacts.Name = "groupBoxContacts";
-            this.groupBoxContacts.Size = new System.Drawing.Size(709, 343);
-            this.groupBoxContacts.TabIndex = 7;
-            this.groupBoxContacts.TabStop = false;
-            this.groupBoxContacts.Text = "Filtered contact list...";
-            // 
-            // radioButtonOnlySelected
-            // 
-            this.radioButtonOnlySelected.AutoSize = true;
-            this.radioButtonOnlySelected.Location = new System.Drawing.Point(6, 42);
-            this.radioButtonOnlySelected.Name = "radioButtonOnlySelected";
-            this.radioButtonOnlySelected.Size = new System.Drawing.Size(89, 17);
-            this.radioButtonOnlySelected.TabIndex = 9;
-            this.radioButtonOnlySelected.TabStop = true;
-            this.radioButtonOnlySelected.Text = "Only selected";
-            this.radioButtonOnlySelected.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonButSelected
-            // 
-            this.radioButtonButSelected.AutoSize = true;
-            this.radioButtonButSelected.Location = new System.Drawing.Point(6, 65);
-            this.radioButtonButSelected.Name = "radioButtonButSelected";
-            this.radioButtonButSelected.Size = new System.Drawing.Size(84, 17);
-            this.radioButtonButSelected.TabIndex = 10;
-            this.radioButtonButSelected.TabStop = true;
-            this.radioButtonButSelected.Text = "But selected";
-            this.radioButtonButSelected.UseVisualStyleBackColor = true;
+            groupBoxGroupMode.Controls.Add(this.radioButtonAll);
+            groupBoxGroupMode.Controls.Add(this.radioButtonOnlySelected);
+            groupBoxGroupMode.Controls.Add(this.listBoxGroups);
+            groupBoxGroupMode.Controls.Add(this.radioButtonButSelected);
+            groupBoxGroupMode.Dock = System.Windows.Forms.DockStyle.Fill;
+            groupBoxGroupMode.Location = new System.Drawing.Point(3, 16);
+            groupBoxGroupMode.Name = "groupBoxGroupMode";
+            groupBoxGroupMode.Size = new System.Drawing.Size(537, 150);
+            groupBoxGroupMode.TabIndex = 13;
+            groupBoxGroupMode.TabStop = false;
+            groupBoxGroupMode.Text = "Group mode...";
             // 
             // radioButtonAll
             // 
@@ -184,36 +119,174 @@
             this.radioButtonAll.TabStop = true;
             this.radioButtonAll.Text = "All";
             this.radioButtonAll.UseVisualStyleBackColor = true;
+            this.radioButtonAll.CheckedChanged += new System.EventHandler(this.updateFilter);
             // 
-            // checkBoxMustHaveAddress
+            // radioButtonOnlySelected
             // 
-            this.checkBoxMustHaveAddress.AutoSize = true;
-            this.checkBoxMustHaveAddress.Location = new System.Drawing.Point(18, 136);
-            this.checkBoxMustHaveAddress.Name = "checkBoxMustHaveAddress";
-            this.checkBoxMustHaveAddress.Size = new System.Drawing.Size(105, 17);
-            this.checkBoxMustHaveAddress.TabIndex = 12;
-            this.checkBoxMustHaveAddress.Text = "Address required";
-            this.checkBoxMustHaveAddress.UseVisualStyleBackColor = true;
+            this.radioButtonOnlySelected.AutoSize = true;
+            this.radioButtonOnlySelected.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonOnlySelected.Name = "radioButtonOnlySelected";
+            this.radioButtonOnlySelected.Size = new System.Drawing.Size(89, 17);
+            this.radioButtonOnlySelected.TabIndex = 9;
+            this.radioButtonOnlySelected.TabStop = true;
+            this.radioButtonOnlySelected.Text = "Only selected";
+            this.radioButtonOnlySelected.UseVisualStyleBackColor = true;
+            this.radioButtonOnlySelected.CheckedChanged += new System.EventHandler(this.updateFilter);
             // 
-            // groupEntryBindingSource
+            // listBoxGroups
             // 
-            this.groupEntryBindingSource.DataSource = typeof(Google.GData.Contacts.GroupEntry);
+            this.listBoxGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBoxGroups.FormattingEnabled = true;
+            this.listBoxGroups.Location = new System.Drawing.Point(101, 15);
+            this.listBoxGroups.MultiColumn = true;
+            this.listBoxGroups.Name = "listBoxGroups";
+            this.listBoxGroups.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.listBoxGroups.Size = new System.Drawing.Size(430, 121);
+            this.listBoxGroups.TabIndex = 8;
+            this.listBoxGroups.SelectedIndexChanged += new System.EventHandler(this.updateFilter);
+            this.listBoxGroups.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.checkedListBox_FormatGroupEntry);
             // 
-            // contactEntryBindingSource
+            // radioButtonButSelected
             // 
-            this.contactEntryBindingSource.DataSource = typeof(Google.GData.Contacts.ContactEntry);
+            this.radioButtonButSelected.AutoSize = true;
+            this.radioButtonButSelected.Location = new System.Drawing.Point(6, 65);
+            this.radioButtonButSelected.Name = "radioButtonButSelected";
+            this.radioButtonButSelected.Size = new System.Drawing.Size(84, 17);
+            this.radioButtonButSelected.TabIndex = 10;
+            this.radioButtonButSelected.TabStop = true;
+            this.radioButtonButSelected.Text = "But selected";
+            this.radioButtonButSelected.UseVisualStyleBackColor = true;
+            this.radioButtonButSelected.CheckedChanged += new System.EventHandler(this.updateFilter);
             // 
-            // groupBoxGroupMode
+            // groupBoxExclude
             // 
-            groupBoxGroupMode.Controls.Add(this.radioButtonAll);
-            groupBoxGroupMode.Controls.Add(this.radioButtonOnlySelected);
-            groupBoxGroupMode.Controls.Add(this.radioButtonButSelected);
-            groupBoxGroupMode.Location = new System.Drawing.Point(12, 19);
-            groupBoxGroupMode.Name = "groupBoxGroupMode";
-            groupBoxGroupMode.Size = new System.Drawing.Size(147, 100);
-            groupBoxGroupMode.TabIndex = 13;
-            groupBoxGroupMode.TabStop = false;
-            groupBoxGroupMode.Text = "Groups...";
+            this.groupBoxExclude.Controls.Add(this.radioButtonExcludeWithoutPhone);
+            this.groupBoxExclude.Controls.Add(this.radioButtonExcludeWithoutAddress);
+            this.groupBoxExclude.Controls.Add(this.radioButtonExcludeWithoutAddressNorPhone);
+            this.groupBoxExclude.Controls.Add(this.radioButtonExcludeNone);
+            this.groupBoxExclude.Dock = System.Windows.Forms.DockStyle.Right;
+            this.groupBoxExclude.Location = new System.Drawing.Point(540, 16);
+            this.groupBoxExclude.Name = "groupBoxExclude";
+            this.groupBoxExclude.Size = new System.Drawing.Size(166, 150);
+            this.groupBoxExclude.TabIndex = 14;
+            this.groupBoxExclude.TabStop = false;
+            this.groupBoxExclude.Text = "Exclude contacts ...";
+            // 
+            // radioButtonExcludeWithoutPhone
+            // 
+            this.radioButtonExcludeWithoutPhone.AutoSize = true;
+            this.radioButtonExcludeWithoutPhone.Location = new System.Drawing.Point(6, 88);
+            this.radioButtonExcludeWithoutPhone.Name = "radioButtonExcludeWithoutPhone";
+            this.radioButtonExcludeWithoutPhone.Size = new System.Drawing.Size(92, 17);
+            this.radioButtonExcludeWithoutPhone.TabIndex = 3;
+            this.radioButtonExcludeWithoutPhone.Text = "without phone";
+            this.radioButtonExcludeWithoutPhone.UseVisualStyleBackColor = true;
+            this.radioButtonExcludeWithoutPhone.CheckedChanged += new System.EventHandler(this.updateFilter);
+            // 
+            // radioButtonExcludeWithoutAddress
+            // 
+            this.radioButtonExcludeWithoutAddress.AutoSize = true;
+            this.radioButtonExcludeWithoutAddress.Location = new System.Drawing.Point(6, 65);
+            this.radioButtonExcludeWithoutAddress.Name = "radioButtonExcludeWithoutAddress";
+            this.radioButtonExcludeWithoutAddress.Size = new System.Drawing.Size(99, 17);
+            this.radioButtonExcludeWithoutAddress.TabIndex = 2;
+            this.radioButtonExcludeWithoutAddress.Text = "without address";
+            this.radioButtonExcludeWithoutAddress.UseVisualStyleBackColor = true;
+            this.radioButtonExcludeWithoutAddress.CheckedChanged += new System.EventHandler(this.updateFilter);
+            // 
+            // radioButtonExcludeWithoutAddressNorPhone
+            // 
+            this.radioButtonExcludeWithoutAddressNorPhone.AutoSize = true;
+            this.radioButtonExcludeWithoutAddressNorPhone.Checked = true;
+            this.radioButtonExcludeWithoutAddressNorPhone.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonExcludeWithoutAddressNorPhone.Name = "radioButtonExcludeWithoutAddressNorPhone";
+            this.radioButtonExcludeWithoutAddressNorPhone.Size = new System.Drawing.Size(153, 17);
+            this.radioButtonExcludeWithoutAddressNorPhone.TabIndex = 1;
+            this.radioButtonExcludeWithoutAddressNorPhone.TabStop = true;
+            this.radioButtonExcludeWithoutAddressNorPhone.Text = "without address and phone";
+            this.radioButtonExcludeWithoutAddressNorPhone.UseVisualStyleBackColor = true;
+            this.radioButtonExcludeWithoutAddressNorPhone.CheckedChanged += new System.EventHandler(this.updateFilter);
+            // 
+            // radioButtonExcludeNone
+            // 
+            this.radioButtonExcludeNone.AutoSize = true;
+            this.radioButtonExcludeNone.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonExcludeNone.Name = "radioButtonExcludeNone";
+            this.radioButtonExcludeNone.Size = new System.Drawing.Size(49, 17);
+            this.radioButtonExcludeNone.TabIndex = 0;
+            this.radioButtonExcludeNone.Text = "none";
+            this.radioButtonExcludeNone.UseVisualStyleBackColor = true;
+            this.radioButtonExcludeNone.CheckedChanged += new System.EventHandler(this.updateFilter);
+            // 
+            // groupBoxContacts
+            // 
+            this.groupBoxContacts.Controls.Add(this.listBoxContacts);
+            this.groupBoxContacts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBoxContacts.Location = new System.Drawing.Point(0, 0);
+            this.groupBoxContacts.Name = "groupBoxContacts";
+            this.groupBoxContacts.Size = new System.Drawing.Size(709, 343);
+            this.groupBoxContacts.TabIndex = 7;
+            this.groupBoxContacts.TabStop = false;
+            this.groupBoxContacts.Text = "Filtered contact list...";
+            // 
+            // listBoxContacts
+            // 
+            this.listBoxContacts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxContacts.FormattingEnabled = true;
+            this.listBoxContacts.Location = new System.Drawing.Point(3, 16);
+            this.listBoxContacts.Name = "listBoxContacts";
+            this.listBoxContacts.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.listBoxContacts.Size = new System.Drawing.Size(703, 324);
+            this.listBoxContacts.TabIndex = 6;
+            this.listBoxContacts.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.checkedListBoxContacts_Format);
+            // 
+            // buttonReport
+            // 
+            this.buttonReport.Location = new System.Drawing.Point(9, 7);
+            this.buttonReport.Name = "buttonReport";
+            this.buttonReport.Size = new System.Drawing.Size(125, 28);
+            this.buttonReport.TabIndex = 7;
+            this.buttonReport.Text = "create && show report";
+            this.buttonReport.UseVisualStyleBackColor = true;
+            this.buttonReport.Click += new System.EventHandler(this.buttonReport_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.buttonSaveToXml);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.buttonReport);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 520);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(709, 47);
+            this.panel1.TabIndex = 11;
+            // 
+            // buttonSaveToXml
+            // 
+            this.buttonSaveToXml.Location = new System.Drawing.Point(443, 7);
+            this.buttonSaveToXml.Name = "buttonSaveToXml";
+            this.buttonSaveToXml.Size = new System.Drawing.Size(125, 28);
+            this.buttonSaveToXml.TabIndex = 9;
+            this.buttonSaveToXml.Text = "Save to XML...";
+            this.buttonSaveToXml.UseVisualStyleBackColor = true;
+            this.buttonSaveToXml.Click += new System.EventHandler(this.buttonSaveToXml_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(574, 7);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(125, 28);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "E&xit";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // saveFileDialogXml
+            // 
+            this.saveFileDialogXml.DefaultExt = "xml";
+            this.saveFileDialogXml.Filter = "Xml Files (*.xml)|*.xml|All files (*.*)|*.*";
+            this.saveFileDialogXml.Title = "Save contact data to XML...";
             // 
             // MainForm
             // 
@@ -226,18 +299,17 @@
             this.Text = "GContactPrinter vX.Y";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
-            this.groupBoxContactFilter.ResumeLayout(false);
-            this.groupBoxContactFilter.PerformLayout();
             splitContainer.Panel1.ResumeLayout(false);
             splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(splitContainer)).EndInit();
             splitContainer.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.groupBoxContacts.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.groupEntryBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.contactEntryBindingSource)).EndInit();
+            this.groupBoxContactFilter.ResumeLayout(false);
             groupBoxGroupMode.ResumeLayout(false);
             groupBoxGroupMode.PerformLayout();
+            this.groupBoxExclude.ResumeLayout(false);
+            this.groupBoxExclude.PerformLayout();
+            this.groupBoxContacts.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -248,13 +320,18 @@
         private System.Windows.Forms.Button buttonReport;
         private System.Windows.Forms.ListBox listBoxGroups;
         private System.Windows.Forms.GroupBox groupBoxContactFilter;
-        private System.Windows.Forms.CheckBox checkBoxMustHaveAddress;
         private System.Windows.Forms.RadioButton radioButtonAll;
         private System.Windows.Forms.RadioButton radioButtonButSelected;
         private System.Windows.Forms.RadioButton radioButtonOnlySelected;
         private System.Windows.Forms.GroupBox groupBoxContacts;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.BindingSource contactEntryBindingSource;
-        private System.Windows.Forms.BindingSource groupEntryBindingSource;
+        private System.Windows.Forms.GroupBox groupBoxExclude;
+        private System.Windows.Forms.RadioButton radioButtonExcludeWithoutPhone;
+        private System.Windows.Forms.RadioButton radioButtonExcludeWithoutAddress;
+        private System.Windows.Forms.RadioButton radioButtonExcludeWithoutAddressNorPhone;
+        private System.Windows.Forms.RadioButton radioButtonExcludeNone;
+        private System.Windows.Forms.Button buttonSaveToXml;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialogXml;
     }
 }

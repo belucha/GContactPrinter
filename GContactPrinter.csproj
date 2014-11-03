@@ -98,6 +98,7 @@
     <Compile Include="ContactGetterDialog.Designer.cs">
       <DependentUpon>ContactGetterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,8 +147,6 @@
     </None>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\Google.GData.Contacts.ContactEntry.datasource" />
-    <None Include="Properties\DataSources\Google.GData.Contacts.GroupEntry.datasource" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GMail.ico" />
